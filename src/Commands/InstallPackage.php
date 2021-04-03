@@ -1,6 +1,6 @@
 <?php
 
-namespace ConfrariaWeb\Imob\Commands;
+namespace ConfrariaWeb\RealEstate\Commands;
 
 use Illuminate\Console\Command;
 use Artisan;

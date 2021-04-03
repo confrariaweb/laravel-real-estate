@@ -1,4 +1,4 @@
-# Package Imob Laravel  
+# Package Real Estate Laravel  
 
 Real estate package for laravel
 
@@ -7,7 +7,6 @@ Real estate package for laravel
 composer install confrariaweb/laravel-real-estate
 ```
 
-- 
 ## Configurations
 Run the command to import the necessary configuration files:
 ```php
