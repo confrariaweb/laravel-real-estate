@@ -8,7 +8,7 @@
             </div>
             <div class="col-6 text-right">
                 <div class="btn-group btn-sm" role="group" aria-label="Basic">
-                    <a href="{{ route('dashboard.properties.create') }}" class="btn btn-sm btn-primary">Novo</a>
+                    <a href="{{ route('dashboard.real-estate.properties.create') }}" class="btn btn-sm btn-primary">Novo</a>
                 </div>
             </div>
         </div>

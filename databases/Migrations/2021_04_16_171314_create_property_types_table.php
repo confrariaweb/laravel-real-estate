@@ -13,7 +13,7 @@ class CreatePropertyTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('property_types', function (Blueprint $table) {
+        Schema::create('realestate_properties_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug');
@@ -29,6 +29,6 @@ class CreatePropertyTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('property_types');
+        Schema::dropIfExists('realestate_properties_types');
     }
 }

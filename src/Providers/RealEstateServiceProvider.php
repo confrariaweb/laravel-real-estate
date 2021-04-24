@@ -3,6 +3,7 @@
 namespace ConfrariaWeb\RealEstate\Providers;
 
 use ConfrariaWeb\RealEstate\Commands\InstallPackage;
+use ConfrariaWeb\RealEstate\Contracts\PropertyBusinessContract;
 use ConfrariaWeb\RealEstate\Contracts\PropertyContract;
 use ConfrariaWeb\RealEstate\Contracts\PropertyFeatureContract;
 use ConfrariaWeb\RealEstate\Contracts\PropertyTypeContract;
@@ -10,9 +11,11 @@ use ConfrariaWeb\RealEstate\Models\Property;
 use ConfrariaWeb\RealEstate\Models\PropertyType;
 use ConfrariaWeb\RealEstate\Observers\PropertyObserver;
 use ConfrariaWeb\RealEstate\Observers\PropertyTypeObserver;
+use ConfrariaWeb\RealEstate\Repositories\PropertyBusinessRepository;
 use ConfrariaWeb\RealEstate\Repositories\PropertyFeatureRepository;
 use ConfrariaWeb\RealEstate\Repositories\PropertyRepository;
 use ConfrariaWeb\RealEstate\Repositories\PropertyTypeRepository;
+use ConfrariaWeb\RealEstate\Services\PropertyBusinessService;
 use ConfrariaWeb\RealEstate\Services\PropertyFeatureService;
 use ConfrariaWeb\RealEstate\Services\PropertyService;
 use ConfrariaWeb\RealEstate\Services\PropertyTypeService;
@@ -36,7 +39,6 @@ class RealEstateServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../Views', 'real-estate');
         $this->registerSeedsFrom(__DIR__.'/../../databases/Seeds');
 
-        PropertyType::observe(PropertyTypeObserver::class);
         Property::observe(PropertyObserver::class);
     }
 
@@ -55,6 +57,11 @@ class RealEstateServiceProvider extends ServiceProvider
         $this->app->bind(PropertyFeatureContract::class, PropertyFeatureRepository::class);
         $this->app->singleton('PropertyFeatureService', function ($app) {
             return new PropertyFeatureService($app->make(PropertyFeatureContract::class));
+        });
+
+        $this->app->bind(PropertyBusinessContract::class, PropertyBusinessRepository::class);
+        $this->app->singleton('PropertyBusinessService', function ($app) {
+            return new PropertyBusinessService($app->make(PropertyBusinessContract::class));
         });
     }
 

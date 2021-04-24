@@ -16,7 +16,7 @@
             $('#properties-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ route("dashboard.properties.datatables") }}',
+                ajax: '{{ route("dashboard.real-estate.properties.datatables") }}',
                 keys: !0,
                 select: {
                     style: "multi"

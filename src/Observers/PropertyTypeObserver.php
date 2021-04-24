@@ -10,12 +10,7 @@ class PropertyTypeObserver
 
     public function creating(PropertyType $propertytype)
     {
-        dd('teste');
-        $slug = request()->slug?? null;
-        if(empty($slug) && !empty($name)){
-            $slug = Str::slug($name);
-        }
-        request()->slug = $slug;
+
     }
 
 }

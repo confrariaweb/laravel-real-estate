@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PropertyFeature extends Model
+class PropertyBusiness extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'realestate_properties_features';
+    protected $table = 'realestate_properties_business';
 
     protected $fillable = ['name', 'slug'];
 

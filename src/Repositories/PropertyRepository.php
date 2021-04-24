@@ -17,6 +17,9 @@ class PropertyRepository implements PropertyContract
 
     protected function sync($obj, $data)
     {
+        if (isset($data['business'])) {
+            $obj->business()->sync($data['business']);
+        }
         if (isset($data['features'])) {
             $obj->features()->sync($data['features']);
         }

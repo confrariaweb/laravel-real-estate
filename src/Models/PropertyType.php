@@ -10,6 +10,8 @@ class PropertyType extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'realestate_properties_types';
+
     protected $fillable = ['name', 'slug'];
 
     public function properties()
