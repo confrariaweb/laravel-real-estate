@@ -5,6 +5,7 @@ namespace ConfrariaWeb\RealEstate\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Response;
 
 class PropertyController extends Controller
 {
@@ -139,5 +140,12 @@ class PropertyController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function destroyFile(Request $request, $id){
+        resolve('FileService')->destroy($id);
+        if($request->ajax()){
+            return Response::json(['success' => true], 200);
+        }
     }
 }

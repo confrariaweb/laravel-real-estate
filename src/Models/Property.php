@@ -44,7 +44,7 @@ class Property extends Model
 
     public function type()
     {
-        return $this->belongsTo(PropertyType::class, 'realestate_properties_types', 'property_id', 'type_id');
+        return $this->belongsTo(PropertyType::class, 'type_id');
     }
 
     /* Mutators */

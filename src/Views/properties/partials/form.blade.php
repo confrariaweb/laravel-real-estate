@@ -174,7 +174,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label class="form-label">
-                                {{ __('CEP') }}
+                                {{ __('zip_code') }}
                             </label>
                             {!! Form::text('options[address][zip_code]', $property->zip_code?? null, ['class' => 'form-control cep', 'placeholder' => __('CEP')]) !!}
                         </div>
@@ -185,7 +185,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label class="form-label">
-                                {{ __('Rua') }}
+                                {{ __('street') }}
                             </label>
                             {!! Form::text('options[address][street]', $property->street?? null, ['class' => 'form-control', 'placeholder' => __('Rua')]) !!}
                         </div>
@@ -193,7 +193,7 @@
                     <div class="col-2">
                         <div class="form-group">
                             <label class="form-label">
-                                {{ __('Numero') }}
+                                {{ __('number') }}
                             </label>
                             {!! Form::text('options[address][number]', $property->number?? null, ['class' => 'form-control', 'placeholder' => __('Numero')]) !!}
                         </div>
@@ -201,7 +201,7 @@
                     <div class="col-2">
                         <div class="form-group">
                             <label class="form-label">
-                                {{ __('Complemento') }}
+                                {{ __('complement') }}
                             </label>
                             {!! Form::text('options[address][complement]', $property->complement?? null, ['class' => 'form-control', 'placeholder' => __('Complemento')]) !!}
                         </div>
@@ -209,7 +209,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label class="form-label">
-                                {{ __('Bairro') }}
+                                {{ __('district') }}
                             </label>
                             {!! Form::text('options[address][district]', $property->district?? null, ['class' => 'form-control', 'placeholder' => __('Bairro')]) !!}
                         </div>
@@ -220,7 +220,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label class="form-label">
-                                {{ __('Cidade') }}
+                                {{ __('city') }}
                             </label>
                             {!! Form::text('options[address][city]', $property->city?? null, ['class' => 'form-control', 'placeholder' => __('Cidade')]) !!}
                         </div>
@@ -228,7 +228,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label class="form-label">
-                                {{ __('Estado') }}
+                                {{ __('state') }}
                             </label>
                             {!! Form::text('options[address][state]', $property->state?? null, ['class' => 'form-control', 'placeholder' => __('Estado')]) !!}
                         </div>
@@ -236,7 +236,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label class="form-label">
-                                {{ __('Pais') }}
+                                {{ __('country') }}
                             </label>
                             {!! Form::text('options[address][country]', $property->country?? null, ['class' => 'form-control', 'placeholder' => __('Pais')]) !!}
                         </div>
@@ -310,8 +310,13 @@
                 <div class="row">
                     @isset($property->files)
                         @foreach($property->files as $file)
-                        <div class="col-2">
-                            <img src="{{ url($file->url) }}" alt="..." class="img-thumbnail">
+                        <div class="col-2 col-file">
+                            <div class="" style="top: 5px; position: absolute; right: 20px;">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic">
+                                    <button data-id="{{ $file->id }}" type="button" class="destroy-file btn btn-danger">X</button>
+                                </div>
+                            </div>
+                            <img src="{{ url($file->url) }}" alt="..." class="img-thumbnail">                   
                         </div>
                         @endforeach
                     @endisset
@@ -342,6 +347,29 @@
 $(document).ready(function(){
     $('.money').mask("#.##0,00", {reverse: true});
     $('.cep').mask('00000-000');
+});
+
+$('.destroy-file').on('click', function(){
+    if (confirm('Tem certeza que deseja deletar esse arquivo?')) {
+        var id = $(this).data("id");
+        var token = $("meta[name='csrf-token']").attr("content");
+        var div = $(this).closest('div.col-file');
+        $.ajax(
+        {
+            url: "/dashboard/real-estate/properties/files/"+id+"/destroy",
+            type: 'DELETE',
+            data: {
+                "id": id,
+                "_token": token,
+            },
+            success: function (result){
+                console.log(result.success);
+                if(result.success){
+                    div.remove();
+                }
+            }
+        });
+    }
 });
 </script>
 @endpush

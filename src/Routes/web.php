@@ -23,6 +23,8 @@ Route::prefix('dashboard')
                             Route::get('datatable', 'PropertyTypeController@datatables')->name('datatables');
                         });
                     Route::resource('types', PropertyTypeController::class);
+
+                    Route::delete('files/{file_id}/destroy', 'PropertyController@destroyFile')->name('files.destroy');
                 });
 
             Route::resource('properties', PropertyController::class);
