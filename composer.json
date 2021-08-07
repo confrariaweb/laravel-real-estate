@@ -18,11 +18,10 @@
     "require": {
         "confrariaweb/laravel-acl": "dev-master",
         "confrariaweb/laravel-dashboard": "dev-master",
+        "confrariaweb/laravel-domain": "dev-master",
         "confrariaweb/laravel-file": "dev-master",
         "confrariaweb/laravel-site": "dev-master",
         "confrariaweb/laravel-template": "dev-master",
-        "confrariaweb/laravel-template-colugo": "dev-master",
-        "confrariaweb/laravel-template-dashboard-argon": "dev-master",
         "confrariaweb/laravel-user": "dev-master",
         "confrariaweb/laravel-vendor": "dev-master"
     },
