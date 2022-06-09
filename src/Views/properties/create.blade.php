@@ -1,30 +1,27 @@
-<x-app-layout>
-    <x-slot name="header">
-        <div class="row">
-            <div class="col-6">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Properties') }}
-                </h2>
-            </div>
-            <div class="col-6 text-right">
-                <div class="btn-group btn-sm" role="group" aria-label="Basic">
-                    <a href="{{ route('dashboard.real-estate.properties.create') }}" class="btn btn-sm btn-primary">Novo</a>
-                    <button type="button" class="btn btn-sm btn-success">Salvar</button>
-                    <a href="{{ route('dashboard.real-estate.properties.index') }}" class="btn btn-sm btn-warning">Voltar</a>
-                </div>
-            </div>
-        </div>
-    </x-slot>
+@extends('real-estate::layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    {!! Form::open(['route' => 'dashboard.real-estate.properties.store', 'class' => 'property-form', 'id' => 'property-form', 'files' => true]) !!}
-                        @include('real-estate::properties.partials.form')
-                    {!! Form::close() !!}
-                </div>
+@section('title', 'Propriedades')
+
+@section('content')	
+<div class="content-body">
+	<!-- row -->
+	<div class="container-fluid">
+		<div class="form-head d-md-flex mb-sm-4 mb-3 align-items-start">
+			<div class="mr-auto  d-lg-block">
+				<h2 class="text-black font-w600">Propriedades</h2>
+				<p class="mb-0">Listagem de imoveis</p>
+			</div>
+			<a href="javascript:void(0);" class="btn btn-primary rounded mr-3" onclick="document.getElementById('property-form').submit();">Salvar</a>
+			<a href="{{ route('dashboard.properties.index') }}" class="btn btn-warning rounded">Cancelar</a>
+		</div>
+		<div class="row">
+            <div class="col-12">
+			@include('real-estate::partials.messages')
+            {!! Form::open(['route' => 'dashboard.properties.store', 'class' => 'property-form', 'id' => 'property-form', 'files' => true]) !!}
+                @include('real-estate::properties.partials.form')
+            {!! Form::close() !!}
             </div>
         </div>
-    </div>
-</x-app-layout>
+	</div>
+</div>
+@endsection  

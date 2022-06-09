@@ -16,14 +16,19 @@
         }
     ],
     "require": {
+        "confrariaweb/laravel-account": "dev-master",
         "confrariaweb/laravel-acl": "dev-master",
-        "confrariaweb/laravel-dashboard": "dev-master",
+        "confrariaweb/laravel-cielo": "dev-master",
+        "confrariaweb/laravel-document": "dev-master",
         "confrariaweb/laravel-domain": "dev-master",
         "confrariaweb/laravel-file": "dev-master",
+        "confrariaweb/laravel-location": "dev-master",
+        "confrariaweb/laravel-plan": "dev-master",
+        "confrariaweb/laravel-property": "dev-master",
         "confrariaweb/laravel-site": "dev-master",
+        "confrariaweb/laravel-tag": "dev-master",
         "confrariaweb/laravel-template": "dev-master",
-        "confrariaweb/laravel-user": "dev-master",
-        "confrariaweb/laravel-vendor": "dev-master"
+        "confrariaweb/laravel-user": "dev-master"
     },
     "autoload": {
         "psr-4": {

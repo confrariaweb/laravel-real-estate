@@ -4,14 +4,35 @@ Real estate package for laravel
 
 ## Installation  
 ```php 
-composer install confrariaweb/laravel-real-estate
+composer create-project laravel/laravel confraria-imob
+composer require confrariaweb/laravel-real-estate
+
+#Laravel Breeze
+composer require laravel/breeze --dev
+php artisan breeze:install
+npm install
+npm run dev
+php artisan migrate
 ```
 
 ## Configurations
+Configure database information in .env file
+
 Run the command to import the necessary configuration files:
 ```php
 php artisan vendor:publish --force
 ```
+
+
+
+
+
+
+
+
+
+
+
 
 Edit the ".env" file and include the application's Dashboard Template configuration:
 ```php

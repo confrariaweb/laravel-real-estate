@@ -4,6 +4,14 @@ namespace ConfrariaWeb\RealEstate\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use ConfrariaWeb\Location\Models\Country;
+use ConfrariaWeb\Location\Models\State;
+use ConfrariaWeb\RealEstate\Models\PropertyFeature;
+use ConfrariaWeb\RealEstate\Models\PropertyFinality;
+use ConfrariaWeb\RealEstate\Models\PropertyType;
+use ConfrariaWeb\RealEstate\Requests\StorePropertyRequest;
+use ConfrariaWeb\RealEstate\Requests\UpdatePropertyRequest;
+use ConfrariaWeb\RealEstate\Services\PropertyService;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Response;
 
@@ -11,45 +19,17 @@ class PropertyController extends Controller
 {
 
     public $data;
+    public $propertyService;
 
-    /**
-     * DomainController constructor.
-     */
-    public function __construct()
+    public function __construct(PropertyService $propertyService)
     {
         $this->data = [];
-        $this->data['features'] = resolve('PropertyFeatureService')->pluck();
-        $this->data['business'] = resolve('PropertyBusinessService')->pluck();
-        $this->data['types'] = resolve('PropertyTypeService')->pluck();
-    }
-
-    public function datatables()
-    {
-        $properties = resolve('PropertyService')->all();
-        return datatables::of($properties)
-            ->addColumn('type', function ($property) {
-                return $property->type->name?? NULL;
-            })
-            ->addColumn('action', function ($property) {
-                return '<div class="btn-group btn-group-sm float-right" role="group">                
-                <a href="'.route('dashboard.real-estate.properties.show', $property->id).'" class="btn btn-info">
-                    <i class="glyphicon glyphicon-eye"></i> Ver
-                </a>
-                <a href="'.route('dashboard.real-estate.properties.edit', $property->id).'" class="btn btn-primary">
-                    <i class="glyphicon glyphicon-edit"></i> Editar
-                </a>
-                <a class="btn btn-danger" href="'.route('dashboard.real-estate.properties.destroy', $property->id).'" onclick="event.preventDefault();
-                    document.getElementById(\'properties-destroy-form-' . $property->id . '\').submit();">
-                    Deletar
-                </a>
-                <form id="properties-destroy-form-' . $property->id . '" action="'.route('dashboard.real-estate.properties.destroy', $property->id).'" method="POST" style="display: none;">
-                    <input name="_method" type="hidden" value="DELETE">    
-                    <input name="_token" type="hidden" value="'. csrf_token() .'">
-                    <input type="hidden" name="id" value="'.$property->id.'">
-                </form>
-            </div>';
-            })
-            ->make();
+        $this->propertyService = $propertyService;
+        $this->data['types'] = PropertyType::pluck('name', 'id');
+        $this->data['finalities'] = PropertyFinality::pluck('name', 'id');
+        $this->data['features'] = PropertyFeature::pluck('name', 'id');
+        $this->data['countries'] = Country::pluck('name', 'id');
+        $this->data['states'] = State::pluck('name', 'id');
     }
 
     /**
@@ -59,7 +39,8 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        return view(config('cw_real_estate.views', 'real-estate::') . 'properties.index', $this->data);
+        $this->data['properties'] = $this->propertyService->paginate();
+        return view('real-estate::properties.index', $this->data);
     }
 
     /**
@@ -78,17 +59,15 @@ class PropertyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePropertyRequest $request)
     {
-        $data = $request->all();
-        $property = resolve('PropertyService')->create($data);
-        if($property->get('error')){
+        $property = $this->propertyService->create($request->all());
+        if(!$property){
             return back()->withInput();
         }
-        $id = $property->get('obj')->id;        
         return redirect()
-            ->route('dashboard.real-estate.properties.edit', $id)
-            ->with('status', $property->get('status'));
+            ->route('dashboard.properties.edit', $property->id)
+            ->with('status', 'Propriedade cadastrada com sucesso');
     }
 
     /**
@@ -110,7 +89,8 @@ class PropertyController extends Controller
      */
     public function edit($id)
     {
-        $this->data['property'] = resolve('PropertyService')->find($id);
+        $this->data['property'] = $this->propertyService->find($id);
+        $this->data['localization'] = $this->data['property']->localization;
         abort_unless($this->data['property'], 404);
         return view(config('cw_real_estate.views', 'real-estate::') . 'properties.edit', $this->data);
     }
@@ -122,13 +102,12 @@ class PropertyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePropertyRequest $request, $id)
     {
-        $data = $request->all();
-        $property = resolve('PropertyService')->update($data, $id);
+        $property = $this->propertyService->update($request->all(), $id);
         return redirect()
             ->route('dashboard.real-estate.properties.edit', $id)
-            ->with('status', $property->get('status'));
+            ->with('status', 'Propriedade atualizada com sucesso');
     }
 
     /**
